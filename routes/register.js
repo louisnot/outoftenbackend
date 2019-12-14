@@ -7,12 +7,12 @@ const { registerValidation, editValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const path = require('path')
-
+const verify = require('../tokenverification/verifyToken')
 
 
 const storage = multer.diskStorage({
     destination : function(req, file, cb ){
-        cb(null,'./images/');
+        cb(null,'./uploads/');
     },
     filename : function(req,file,cb){
         cb(null, Date.now() + file.originalname);
@@ -41,9 +41,10 @@ router.get('/users', async (req,res) => {
 
 
 // route for photo TEST
-router.patch('/upload/:userId',upload.single('photo'), async (req,res)=> {
+router.post('/uploads/:userId',upload.single('photo'), async (req,res)=> {
+    console.log("oui")
     console.log('file',req.file);
-    console.log('body', req.body);
+    console.log(req.params.userId)
     const photoUpdate = await Users.updateOne(
         {_id : req.params.userId},
         {$set : {userImage : req.file.path}}
@@ -56,9 +57,9 @@ router.patch('/upload/:userId',upload.single('photo'), async (req,res)=> {
 
 // CREATE AN ACCOUNT
 router.post('/register',async (req,res)=>{
-    const {error} =registerValidation(req.body);
+    const {error} = registerValidation(req.body);
     console.log("le body",req.body)
-    if(error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).json(error.details[0].message);
     //Check if user is already registered with email
     const emailExist = await Users.findOne({email: req.body.email});
     if(emailExist) return res.status(400).send("Email is already registered")
@@ -72,12 +73,12 @@ router.post('/register',async (req,res)=>{
         password : hashedPassword,
         name : req.body.name,
         age : req.body.age,
+        sexe : req.body.sexe
         //userImage: req.file.path
     });
     try{
    const savedUser = await user.save();
    res.json({user : user._id});
-   console.log('debut')
     } catch(err){
         res.status(400).send(err);
         console.log("non ca marche pas")
@@ -86,7 +87,7 @@ router.post('/register',async (req,res)=>{
 
 // GET A SPECIFIC USER WITH ID
 
-router.get('/:userId', async (req,res)=>{
+router.get('/:userId',verify, async (req,res)=>{
     try{
     const user = await Users.findById(req.params.userId);
     res.json(user);

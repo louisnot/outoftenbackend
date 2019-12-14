@@ -47,6 +47,10 @@ const userSchema = mongoose.Schema({
         default:0
     },
     userImage:{ type : String, required: false, default: null
+    },
+    sexe:{
+        required:true,
+        type:String
     }
 
 });
