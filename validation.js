@@ -37,6 +37,15 @@ const editValidation = (data) =>{
     return schema.validate(data);
 }
 
+const voteValidation = (score) => {
+    const schema = Joi.object({
+        Score : Joi.number().required(),
+        userId : Joi.string().required()
+    })
+    return schema.validate(score)
+}
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.editValidation = editValidation;
+module.exports.voteValidation = voteValidation;

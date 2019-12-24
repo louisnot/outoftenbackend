@@ -42,17 +42,13 @@ router.get('/users', async (req,res) => {
 
 // route for photo TEST
 router.post('/uploads/:userId',upload.single('photo'), async (req,res)=> {
-    console.log("oui")
     console.log('file',req.file);
     console.log(req.params.userId)
     const photoUpdate = await Users.updateOne(
         {_id : req.params.userId},
         {$set : {userImage : req.file.path}}
     )
-    res.status(200).json({
-        message:'success!',
-
-    });
+    res.status(200).send(req.file)
 });
 
 // CREATE AN ACCOUNT
@@ -79,11 +75,16 @@ router.post('/register',async (req,res)=>{
     try{
    const savedUser = await user.save();
    res.json({user : user._id});
+   
+
     } catch(err){
         res.status(400).send(err);
         console.log("non ca marche pas")
     }
 });
+
+// Function to update the profil pic after registration to default
+
 
 // GET A SPECIFIC USER WITH ID
 

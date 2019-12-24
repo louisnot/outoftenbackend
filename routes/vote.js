@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
+const verify = require('../tokenverification/verifyToken')
 
 
 
@@ -43,6 +44,30 @@ router.patch('/downvote/:userId', async (req,res)=>{
     };
 })
 
+// Add user to history
+router.patch('/historyvote/:userId', async(req,res)=>{
+    console.log(req.body)
+    try{
+        const historyUser= await Users.updateOne(
+            { _id : req.params.userId},
+            {$push : {historyVote: req.body.userId}
+        });
+        res.json(historyUser)
+    } catch(err){
+        res.json(err)
+    };
+})
 
+// Return all users from history aray of the specific user
+router.get('/array/:userId',async(req,res)=>{
+    try{
+        const user = await Users.find(
+            {_id: req.params.userId}, {historyVote : 1, _id : 0}
+        );
+        res.json(user)
+    } catch(err){
+        res.json(err)
+    }
+})
 
 module.exports = router;

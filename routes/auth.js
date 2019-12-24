@@ -3,7 +3,9 @@ const router = require('express').Router();
 const { loginValidation } = require('../validation');
 const  Users = require('../models/Users');
 const bcrypt = require('bcryptjs');
+const verify = require('../tokenverification/verifyToken')
 const jwt = require('jsonwebtoken');
+const {voteValidation} = require('../validation')
 // LOGIN
 
 router.get('/log', (req,res)=>{
@@ -25,7 +27,25 @@ router.post('/login', async (req,res)=>{
     res.header('authorization', token).send(token);
 });
 
+// vote
 
+
+router.post('/vote',verify, async(req,res)=>{
+    // Validation updating info
+    console.log(req.body)
+    //const {error} = voteValidation(req.body);
+    //if(error) return res.status(400).send(error.details[0].message) // Bad request 
+    try{
+    const userUpdate = await Users.updateOne(
+        { _id: req.body.userId },
+        { $set: { Score : req.body.Score} 
+        });
+        res.json(userUpdate);
+    }catch(err){
+        res.json(err)
+    }
+
+});
 
 
 
