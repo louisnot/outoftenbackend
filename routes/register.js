@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs')
-const Module = require('module');
 const Users = require('../models/Users');
 const { registerValidation, editValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
@@ -88,6 +87,10 @@ router.post('/register',async (req,res)=>{
 
 // GET A SPECIFIC USER WITH ID
 
+router.get('/privacy', async(req,res) =>{
+    res.redirect('https://www.privacypolicygenerator.info/live.php?token=vx2u7OnoAjOEMRwFQ8UwXRuCca4wPjmD')
+})
+
 router.get('/:userId',verify, async (req,res)=>{
     try{
     const user = await Users.findById(req.params.userId);
@@ -125,5 +128,6 @@ router.patch('/:userId', async(req,res)=>{
     }
 
 });
+
 
 module.exports = router;
