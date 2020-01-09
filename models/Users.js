@@ -48,10 +48,6 @@ const userSchema = mongoose.Schema({
     },
     userImage:{ type : String, required: false, default: "uploads/avatardefault.png"
     },
-    sexe:{
-        required:true,
-        type:String
-    },
     historyVote: {
         type:Array, required : false, default : []
     }

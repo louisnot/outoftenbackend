@@ -13,6 +13,7 @@ const usersRoute = require('./routes/register');
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/post') // route de test
 const voteRoute = require('./routes/vote');
+const reportRoute = require('./routes/report');
 
 //Middleware
 app.use(cors())
@@ -24,6 +25,7 @@ app.use('/api/new', usersRoute);
 app.use('/api/home',authRoute);
 app.use('/api/posts', postRoute);
 app.use('/api/vote', voteRoute);
+app.use('/api/report', reportRoute);
 
 
 // Connect to DB 
@@ -34,7 +36,7 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() =>{
 
 
 app.get('/', (req,res)=> {
-  res.send("Welcome to the TindHC API")
+  res.send("Welcome to the Out of Ten API!")
 })
 
 
