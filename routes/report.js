@@ -19,12 +19,13 @@ router.get('/reports' , async(req,res)=>{
 })
 
 
-router.post('/submit/:idUser',verify, async (req,res)=>{
+router.post('/submit/:idUser', async (req,res)=>{
+    console.log(req.body)
     const UserExist = await Users.findOne({_id:req.params.idUser});
     if(!UserExist) return res.status(400).send("User does not exist!")
     const report = new Reported({
         idReporter : req.params.idUser,
-        idReportedUser : req.body._id
+        idReportedUser : req.body.idReportedUser
     });
     try{
         savedReport = report.save()
