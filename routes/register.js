@@ -41,14 +41,24 @@ router.get('/users', async (req,res) => {
 
 // route for photo TEST
 router.post('/uploads/:userId',upload.single('photo'), async (req,res)=> {
+    
     console.log('file',req.file);
-    console.log(req.params.userId)
+    console.log(req.params.userId,req.body)
     const photoUpdate = await Users.updateOne(
         {_id : req.params.userId},
-        {$set : {userImage : req.file.path}}
+        {$set : {userImage : req.file.path, imageCaterogy : req.body}}
     )
     res.status(200).send(req.file)
 });
+
+router.post('/cat/:userId',async(req,res)=>{
+    console.log(req.body)
+    const catUpdate = await Users.updateOne(
+        {_id:req.params.userId},
+        {$set : { imageCategory : req.body.imageCategory}}
+    )
+    res.status(200).send(catUpdate)
+})
 
 // CREATE AN ACCOUNT
 router.post('/register',async (req,res)=>{

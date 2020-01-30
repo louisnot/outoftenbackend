@@ -48,6 +48,9 @@ const userSchema = mongoose.Schema({
     },
     userImage:{ type : String, required: false, default: "uploads/avatardefault.png"
     },
+    imageCategory : {
+        type:String, required:true, default:null,
+    },
     historyVote: {
         type:Array, required : false, default : []
     }
