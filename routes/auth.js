@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const verify = require('../tokenverification/verifyToken')
 const jwt = require('jsonwebtoken');
 const {voteValidation} = require('../validation')
+const Comment = require('../models/Comment')
 // LOGIN
 
 router.get('/log', (req,res)=>{
@@ -46,6 +47,37 @@ router.post('/vote',verify, async(req,res)=>{
     }
 
 });
+
+// Get comment for users
+router.post('/comment', async(req,res) =>{
+    const Userexist = await Users.findOne({_id: req.body.idUser})
+    if(!Userexist) return res.status(400).send('invalid request');
+    const message = new Comment({
+        idUser : req.body.idUser,
+        messageContent : req.body.message
+    });
+    try{
+        savedReport = message.save()
+        res.json({user : message.messageContent})
+    }
+    catch(err){
+        res.json(err)
+    }
+})
+
+// Post comment for users
+router.get('/commentlist/:idUser' , async(req,res) =>{
+    const Userexist = await Users.findOne({_id:req.params.idUser})
+    if(!Userexist)  return res.status(400).send('User does not exist')
+    try{
+        commentUser = await Comment.find({idUser : req.params.idUser})
+        res.json(commentUser)
+    }
+    catch(err){
+        res.json(err)
+    }
+
+})
 
 
 

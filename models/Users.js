@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const Module = require('module');
-const fs = require('fs')
 
 
 const userSchema = mongoose.Schema({
