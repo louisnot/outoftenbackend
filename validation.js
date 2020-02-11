@@ -7,8 +7,7 @@ const registerValidation = (data)=>{
         name: Joi.string().min(4).required().max(255),
         email : Joi.string().min(8).required().max(255).email(),
         password:Joi.string().min(6).required(),
-        age: Joi.number().integer().min(18).max(100).required(),
-        sexe: Joi.string().required()
+        age: Joi.number().integer().min(18).max(100).required()
     })
      // DATA VALIDATION FIRST
      return schema.validate(data);
