@@ -78,7 +78,6 @@ router.post('/register',async (req,res)=>{
         password : hashedPassword,
         name : req.body.name,
         age : req.body.age,
-        sexe : req.body.sexe
         //userImage: req.file.path
     });
     try{
