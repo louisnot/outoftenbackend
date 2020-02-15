@@ -2,9 +2,13 @@
 const express =require('express');
 const Joi = require('@hapi/joi');
 const app =express()
+const https = require('https');
+const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
+const fs = require('fs')
+
 require('dotenv/config');
 
 
@@ -33,7 +37,21 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() =>{
   console.log("connected to DB")
 });
 
-
+// CREATE HTTPS SERVER
+const httpsOptions= {
+  cert : fs.readFileSync('cert.pem'),
+  key : fs.readFileSync('key.pem')
+}
+https.createServer(httpsOptions,app)
+  .listen(5050,function(){
+    console.log('Server secured running')
+  })
+/*
+https.createServer({
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+}, app).listen(5050);
+*/
 
 app.get('/', (req,res)=> {
   res.send("Welcome to the Out of Ten API!")
@@ -41,7 +59,9 @@ app.get('/', (req,res)=> {
 
 
 //PORT 
+/*
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, ()=>{
   console.log(`Now listening on ${PORT}`);
 })
+*/
