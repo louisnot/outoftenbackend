@@ -3,6 +3,7 @@ const express =require('express');
 const Joi = require('@hapi/joi');
 const app =express()
 const https = require('https');
+const http = require('http');
 const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -41,33 +42,27 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() =>{
 
 // CREATE HTTPS SERVER
 
-/*
+
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/chain.pem', 'utf8');
+//const ca = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/chain.pem', 'utf8');
 
 const httpsOptions = {
   key : privateKey,
   cert : certificate,
-  ca : ca
 }
 
+http.createServer(app)
+.listen(80)
 
 https.createServer(httpsOptions,app)
   .listen(5050,function(){
     console.log('Server secured running')
   }).listen(443)
-*/
+
 
 app.get('/', (req,res)=> {
   res.send("Welcome to the Out of Ten API!")
 })
 
 
-//PORT 
-
-
-const PORT = process.env.PORT || 80;
-app.listen(PORT, ()=>{
-  console.log(`Now listening on ${PORT}`);
-})
