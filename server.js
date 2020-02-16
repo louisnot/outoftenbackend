@@ -45,12 +45,13 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() =>{
 
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/fullchain.pem', 'utf8');
-//const ca = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/chain.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/chain.pem', 'utf8');
 
 
 const httpsOptions = {
   key : privateKey,
   cert : certificate,
+  ca : ca
 }
 https.createServer(httpsOptions,app).listen(443)
 
