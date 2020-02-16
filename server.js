@@ -46,7 +46,7 @@ const httpsOptions= {
 https.createServer(httpsOptions,app)
   .listen(5050,function(){
     console.log('Server secured running')
-  })
+  }).listen(443)
 
 
 app.get('/', (req,res)=> {
@@ -56,7 +56,9 @@ app.get('/', (req,res)=> {
 
 //PORT 
 
+/*
 const PORT = process.env.PORT || 443;
 app.listen(PORT, ()=>{
   console.log(`Now listening on ${PORT}`);
 })
+*/
