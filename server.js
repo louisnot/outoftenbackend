@@ -19,6 +19,7 @@ const postRoute = require('./routes/post') // route de test
 const voteRoute = require('./routes/vote');
 const reportRoute = require('./routes/report');
 
+
 //Middleware
 app.use(cors())
 app.use(express.json());
@@ -37,8 +38,10 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() =>{
   console.log("connected to DB")
 });
 
+
 // CREATE HTTPS SERVER
 
+/*
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/cert.pem', 'utf8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/chain.pem', 'utf8');
@@ -49,11 +52,12 @@ const httpsOptions = {
   ca : ca
 }
 
+
 https.createServer(httpsOptions,app)
   .listen(5050,function(){
     console.log('Server secured running')
   }).listen(443)
-
+*/
 
 app.get('/', (req,res)=> {
   res.send("Welcome to the Out of Ten API!")
@@ -62,9 +66,8 @@ app.get('/', (req,res)=> {
 
 //PORT 
 
-/*
-const PORT = process.env.PORT || 443;
+
+const PORT = process.env.PORT || 80;
 app.listen(PORT, ()=>{
   console.log(`Now listening on ${PORT}`);
 })
-*/
