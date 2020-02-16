@@ -39,15 +39,15 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() =>{
 
 // CREATE HTTPS SERVER
 const httpsOptions= {
-  cert : fs.readFileSync('cert.pem'),
-  key : fs.readFileSync('key.pem')
+  cert : fs.readFileSync('/etc/letsencrypt/live/outoften.fr/fullchain.pem'),
+  key : fs.readFileSync('/etc/letsencrypt/live/outoften.fr/privkey.pem')
 }
-/*
+
 https.createServer(httpsOptions,app)
   .listen(5050,function(){
     console.log('Server secured running')
   })
-*/
+
 
 app.get('/', (req,res)=> {
   res.send("Welcome to the Out of Ten API!")
@@ -56,7 +56,7 @@ app.get('/', (req,res)=> {
 
 //PORT 
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 443;
 app.listen(PORT, ()=>{
   console.log(`Now listening on ${PORT}`);
 })
