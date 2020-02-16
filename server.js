@@ -47,18 +47,14 @@ const privateKey = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/privkey.pe
 const certificate = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/fullchain.pem', 'utf8');
 //const ca = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/chain.pem', 'utf8');
 
-/*
+
 const httpsOptions = {
   key : privateKey,
   cert : certificate,
 }
-https.createServer(httpsOptions,app)
-  .listen(5050,function(){
-    console.log('Server secured running')
-  }).listen(443)
-  */
-http.createServer(app)
-.listen(80)
+https.createServer(httpsOptions,app).listen(443)
+
+http.createServer(app).listen(80)
 
 
 app.get('/', (req,res)=> {
