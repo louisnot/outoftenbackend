@@ -46,7 +46,7 @@ router.post('/uploads/:userId',upload.single('photo'), async (req,res)=> {
     console.log(req.params.userId,req.body)
     const photoUpdate = await Users.updateOne(
         {_id : req.params.userId},
-        {$set : {userImage : req.file.path, imageCaterogy : req.body}}
+        {$set : {userImage : req.file.path, imageCaterogy : req.body, Score: 1500}}
     )
     res.status(200).send(req.file)
 });
@@ -78,7 +78,6 @@ router.post('/register',async (req,res)=>{
         password : hashedPassword,
         name : req.body.name,
         age : req.body.age,
-        //userImage: req.file.path
     });
     try{
    const savedUser = await user.save();
