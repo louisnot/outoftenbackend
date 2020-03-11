@@ -8,6 +8,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Users = require('./models/Users');
 const cors = require('cors');
+const fs = require('fs')
 require('dotenv/config');
 
 
