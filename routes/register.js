@@ -39,9 +39,8 @@ router.get('/users', async (req,res) => {
 });
 
 
-// route for photo TEST
+// route for photo upload
 router.post('/uploads/:userId',upload.single('photo'), async (req,res)=> {
-    
     console.log('file',req.file);
     console.log(req.params.userId,req.body)
     const photoUpdate = await Users.updateOne(
@@ -51,6 +50,7 @@ router.post('/uploads/:userId',upload.single('photo'), async (req,res)=> {
     res.status(200).send(req.file)
 });
 
+
 router.post('/cat/:userId',async(req,res)=>{
     console.log(req.body)
     const catUpdate = await Users.updateOne(
@@ -59,6 +59,7 @@ router.post('/cat/:userId',async(req,res)=>{
     )
     res.status(200).send(catUpdate)
 })
+
 
 // CREATE AN ACCOUNT
 router.post('/register',async (req,res)=>{
@@ -136,6 +137,4 @@ router.patch('/:userId', async(req,res)=>{
     }
 
 });
-
-
 module.exports = router;

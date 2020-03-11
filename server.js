@@ -1,15 +1,13 @@
 // import modules
 const express =require('express');
 const Joi = require('@hapi/joi');
-const app =express()
+const app = express()
 const https = require('https');
 const http = require('http');
 const path = require('path');
 const mongoose = require('mongoose');
+const Users = require('./models/Users');
 const cors = require('cors');
-const multer = require('multer');
-const fs = require('fs')
-
 require('dotenv/config');
 
 
@@ -42,7 +40,6 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true },() =>{
 
 // CREATE HTTPS SERVER
 
-
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/fullchain.pem', 'utf8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/outoften.fr/chain.pem', 'utf8');
@@ -57,6 +54,20 @@ https.createServer(httpsOptions,app).listen(443)
 
 http.createServer(app).listen(80)
 
+//reset historyVote every day
+setInterval(()=>resetHistory(), 432000)
+
+async function resetHistory(){
+  try{
+      const user =  await Users.updateMany(
+            {$set : { "historyVote" : [] }}
+      );
+      console.log("good")
+  }catch(err){
+      res.json({message: err})
+      console.log(err)
+  }
+}
 
 app.get('/', (req,res)=> {
   res.send("Welcome to the Out of Ten API!")
