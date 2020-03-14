@@ -56,7 +56,7 @@ https.createServer(httpsOptions,app).listen(443)
 http.createServer(app).listen(80)
 
 //reset historyVote every day
-setInterval(()=>resetHistory(), 432000)
+setInterval(()=>resetHistory(), 1000000)
 
 async function resetHistory(){
   try{
